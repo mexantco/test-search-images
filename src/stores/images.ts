@@ -1,6 +1,12 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import AxiosInstance from "../api";
 
+interface ImageResult {
+    urls: {
+      small: string;
+    };
+  }
+
 export class imagesStore {
     q:null|string=null
     loading :boolean = false
@@ -9,11 +15,11 @@ export class imagesStore {
     constructor(){
         makeAutoObservable(this)
     }
-    fetchImages = async (q:string, ni: boolean)=>{
+    fetchImages = async (q:string, ni: boolean): Promise<void>=>{
         // this.q=q
         await AxiosInstance.get(`/search/photos/?client_id=nIVqtTtgQNo-JFIeCunucDuXZl-Pjw3CZM8Eyo1_z9k&query=${q}&page=${ni?this.page:1}`)
         .then((res)=>{
-            let arr = res.data.results.map((el:any)=>el.urls.small)
+            let arr: string[] = res.data.results.map((el: ImageResult) => el.urls.small);
             runInAction(()=>{
                 
                 this.images = ni?[...this.images,...arr]:arr
@@ -23,12 +29,12 @@ export class imagesStore {
         .catch((error)=>{console.log(error)})
         
     }
-    setQuery = ()=>{
-        runInAction((q:string)=>{
+    setQuery = (q:string): void=>{
+        runInAction(()=>{
             this.q=q
         })
     }
-    clearSearch =  ()=>{
+    clearSearch =  ():void=> {
             runInAction(()=>{
                 this.q=''
                 this.images = []

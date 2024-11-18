@@ -1,7 +1,19 @@
+import React from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity} from "react-native"
 import ViewTransformer from "react-native-easy-view-transformer";
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const ImageView:React.FC = ({route, navigation})=>{
+type RootStackParamList = {
+    imageView: { uri: string };
+  };
+  
+  type ImageViewProps = {
+    route: RouteProp<RootStackParamList, 'imageView'>;
+    navigation: StackNavigationProp<RootStackParamList, 'imageView'>;
+  };
+  
+const ImageView: React.FC<ImageViewProps> = ({ route, navigation }) => {
 const uri = route.params.uri
     return(
         <View style={styles.container}>

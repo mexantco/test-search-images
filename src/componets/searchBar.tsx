@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 
-export const SearchBar:React.FC = ({onSubmit, clearSearch, setQuery, q})=>{
+interface SearchBarProps {
+  onSubmit: (query: string) => void;
+  clearSearch: () => void;
+  setQuery: (query: string) => void;
+  q: string;
+}
+
+
+export const SearchBar:React.FC<SearchBarProps> = ({onSubmit, clearSearch, setQuery, q})=>{
  
     return(
         <View style={styles.container}>

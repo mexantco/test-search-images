@@ -6,7 +6,13 @@ import { SearchBar } from "../componets/searchBar";
 import MasonryList from "@ducdh-origin/react-native-masonry-list";
 import debounce from 'lodash/debounce'
 
-const ImagesList:React.FC = observer(({navigation})=>{
+interface ImagesListProps {
+  navigation: {
+    push: (route: string, params: { uri: string }) => void;
+  };
+}
+
+const ImagesList:React.FC<ImagesListProps> = observer(({navigation})=>{
     const {imagesStore:{images, fetchImages, setQuery, clearSearch,q}} = useRootStore() 
     
     const onSubmit =  debounce(async (text:string)=>{
@@ -21,7 +27,7 @@ const ImagesList:React.FC = observer(({navigation})=>{
         
         {images.length>0?(<>
         <MasonryList
-        onPressImage={(event:any)=>{
+        onPressImage={(event: { uri: string })=>{
           
           navigation.push('imageView', {uri:event.uri})
         }}
